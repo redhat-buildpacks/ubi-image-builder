@@ -94,6 +94,10 @@ spec:
       name: prefetch-input
       type: string
 
+    - name: enable-package-registry-proxy
+      default: 'true'
+      description: Use the package registry proxy when prefetching dependencies
+      type: string
     tasks:
       - name: clone-repository
         params:
@@ -106,7 +110,7 @@ spec:
             - name: name
               value: git-clone
             - name: bundle
-              value: quay.io/redhat-appstudio-tekton-catalog/task-git-clone:0.1@sha256:b8fddc2d36313a5cde93aba2491205f4a84e6853af6c34ede681f8339b147478
+              value: quay.io/redhat-appstudio-tekton-catalog/task-git-clone:0.2@sha256:4ba6a13721fc5e7258d2ca6a0bed0dae9be5548691c691cb5eb36aea5ac62136
             - name: kind
               value: task
           resolver: bundles
@@ -120,6 +124,8 @@ spec:
         params:
           - name: input
             value: $(params.prefetch-input)
+          - name: enable-package-registry-proxy
+            value: $(params.enable-package-registry-proxy)
         runAfter:
           - clone-repository
         taskRef:
@@ -127,7 +133,7 @@ spec:
             - name: name
               value: prefetch-dependencies
             - name: bundle
-              value: quay.io/redhat-appstudio-tekton-catalog/task-prefetch-dependencies:0.1@sha256:563b91f72adf9b3b93f990f7c1d140f79749af837135aa07212347cb9ed79a34
+              value: quay.io/redhat-appstudio-tekton-catalog/task-prefetch-dependencies:0.3@sha256:00ab75f5adf0934c0348cfdc47e63216dd06dc5bf79f11ba71c79a19508ae6eb
             - name: kind
               value: task
           resolver: bundles
